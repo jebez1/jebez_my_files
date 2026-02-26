@@ -86,7 +86,7 @@ sed -i '/t A/s/^/# /
 sed -i /W/,/^$/{//!s/.//} /etc/pacman.d/mirrorlist    # config, only the Worldwide mirrors
 sed -i '/Ca/cCacheDir=/tmp/!    # option, use the RAM (& maybe the swap partition, can happen with only 4 GiB of RAM...)
 /b]/,+1s/.//' /etc/pacman.conf    # option, enable the multilib repo, e.g. Steam https://archlinux.org/packages/multilib/x86_64/steam/ is still 32-bit...
-echo -n unset HISTFILE>>/etc/bash.bashrc"    # option, not log the Bash commands in /home/a/.bash_history
+echo -n unset HISTFILE>>/etc/bash.bashrc"    # option, log not the Bash commands in /home/a/.bash_history
 umount /mnt/efi
 umount /mnt
 mount /dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part4 /mnt
