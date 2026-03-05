@@ -104,3 +104,19 @@ chmod u=r /home/a/.local/share/recently-used.xbel    # option, https://askubuntu
 localectl set-keymap fr
 ⏺
 Reboot, to localectl set-keymap fr takes effect.
+
+• Tips
+
+⃝
+nano /home/a_path/0
+⏺
+
+to view, edit 0.
+
+⃝
+...
+exit
+...
+⏺
+
+somewhere in 0, to eventually debug it (I did it for sleep command).
