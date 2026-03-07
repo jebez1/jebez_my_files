@@ -31,7 +31,6 @@ mount /dev/sdb1 /home    # /home is empty
 /dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part4 is the data partition
 
 0 contains:
-
 ⃝
 mount -o remount,size=0 /tmp    # tweak, remove the limit of tmpfs, https://man.archlinux.org/man/tmpfs.5 , https://wiki.archlinux.org/title/Tmpfs
 sed -i '/Ca/cCacheDir=/tmp/!    # use the RAM
@@ -110,7 +109,6 @@ Reboot, to localectl set-keymap fr takes effect.
 ⃝
 nano /home/a_path/0
 ⏺
-
 to view, edit 0.
 
 ⃝
@@ -118,7 +116,6 @@ to view, edit 0.
 exit
 ...
 ⏺
-
 to add somewhere in 0, to eventually debug it (I did it for sleep command).
 
 Ctrl C to stop 0.
