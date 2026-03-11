@@ -68,7 +68,7 @@ echo -en ALL_kver='$(ls /usr/lib/modules)\'nPRESETS='\'n_uki=/efi/efi/boot/bootx
 mkdir /mnt/etc/kernel
 echo *n root=/dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part2 resume=/dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part3 rw>/mnt/etc/kernel/cmdline    # prepare & tell mkinitcpio to create an UKI
 swapon /dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part3    # tweak, enable the swap partition
-pacstrap -icMK /mnt base linux dosfstools f2fs-tools man-db nano sudo linux-firmware-amdgpu linux-firmware-atheros plasma-meta kde-applications-meta dvd+rw-tools chromium vlc vlc-plugins-all cmatrix supertuxkart teeworlds<<<'
+pacstrap -icMK /mnt base linux linux-firmware-amdgpu linux-firmware-atheros dosfstools f2fs-tools man-db nano sudo plasma-meta kde-applications-meta dvd+rw-tools chromium vlc vlc-plugins-all cmatrix supertuxkart teeworlds<<<'
 
 
 2
