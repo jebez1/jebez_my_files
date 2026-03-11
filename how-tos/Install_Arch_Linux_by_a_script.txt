@@ -35,7 +35,7 @@ mount /dev/sdb1 /home    # /home is empty
 mount -o remount,size=0 /tmp    # tweak, remove the limit of tmpfs, https://man.archlinux.org/man/tmpfs.5 , https://wiki.archlinux.org/title/Tmpfs
 sed -i '/Ca/cCacheDir=/tmp/!    # use the RAM
 /Ch/d' /etc/pacman.conf    # tweak, use the swap partition, Ch : CheckSpace
-fdisk /dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT<<<'n    #
+fdisk /dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT<<<'n
 
 
 133119
@@ -68,10 +68,18 @@ echo -en ALL_kver='$(ls /usr/lib/modules)\'nPRESETS='\'n_uki=/efi/efi/boot/bootx
 mkdir /mnt/etc/kernel
 echo *n root=/dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part2 resume=/dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part3 rw>/mnt/etc/kernel/cmdline    # prepare & tell mkinitcpio to create an UKI
 swapon /dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part3    # tweak, enable the swap partition
-pacstrap -cMK /mnt base linux dosfstools f2fs-tools man-db nano sudo linux-firmware-amdgpu linux-firmware-atheros plasma-meta pipewire-jack kde-applications-meta dvd+rw-tools chromium vlc vlc-plugins-all cmatrix supertuxkart teeworlds    # need to precise pipewire-jack because otherwise jack2 by default instead, https://bbs.archlinux.org/viewtopic.php?id=311984
+pacstrap -icMK /mnt base linux dosfstools f2fs-tools man-db nano sudo linux-firmware-amdgpu linux-firmware-atheros plasma-meta kde-applications-meta dvd+rw-tools chromium vlc vlc-plugins-all cmatrix supertuxkart teeworlds<<<'
+
+
+2
+
+
+
+30
+'    # the pacstrap -i option is used, to select pipewire-jack (instead of jack2) & tesseract-data-eng
 rm -r /tmp/!    # remove the downloaded packages
 arch-chroot /mnt bash -c "pacman -Qqd|pacman -Rsun --noconfirm -    # clean, https://wiki.archlinux.org/title/Pacman/Tips_and_tricks#Removing_unused_packages_.28orphans.29
-systemctl enable NetworkManager sddm
+systemctl enable NetworkManager plasmalogin
 ln -s /usr/share/zoneinfo/UTC /etc/localtime
 hwclock -w
 echo -en /dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part1 /efi auto'\'n/dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part3 none swap>/etc/fstab
@@ -116,6 +124,6 @@ to view, edit 0.
 exit
 ...
 ⏺
-to add somewhere in 0, to eventually debug it (I did it for sleep command).
+to add somewhere in 0, to eventually debug it (I did it for sleep & pacstrap).
 
 Ctrl C to stop 0.
