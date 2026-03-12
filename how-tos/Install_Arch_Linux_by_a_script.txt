@@ -17,7 +17,7 @@ Boot /dev/sdb2
 ⃝
 bash    # because Arch Linux uses Bash by default, so why Zsh in the installer? https://bbs.archlinux.org/viewtopic.php?id=302631
 localectl set-keymap fr    # azerty (I'm french)
-ls -l /dev/disk/by-id    # get the ID of the target PC drive (e.g. ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT ) to write in 0
+ls -l /dev/disk/by-id    # get the target PC drive ID (e.g. ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT ) to write in 0
 mount /dev/sdb1 /home    # /home is empty
 /home/a_path/0|tee .txt    # |tee .txt is an option, to log the 0 message in the RAM
 ⏺
