@@ -1,0 +1,63 @@
+sudo -i
+
+{
+truncate -s 123731968000 /run/media/a/8688e754-c2e4-40d1-a9c8-c205211ca8d9/.img
+losetup -fP /run/media/a/8688e754-c2e4-40d1-a9c8-c205211ca8d9/.img
+fdisk /dev/loop0<<<'g
+n
+
+34
+65569
+n
+
+65570
+191332318
+n
+
+191332319
+208109534
+n
+
+208109535
+241663966
+w'
+sleep 1
+mkfs.fat -F16 /dev/loop0p1
+mkfs.f2fs -f /dev/disk/loop0p2
+mkswap /dev/disk/loop0p3
+mkfs.f2fs -f /dev/loop0p4
+mount /dev/loop0p2 /mnt
+chmod 777 /mnt
+mount --mkdir /dev/loop0p1 /mnt/boot
+chmod 777 /mnt/boot
+pacstrap -ic /mnt base device-pine64-pinephonepro dosfstools f2fs-tools man-db nano plasma-meta kde-applications-meta wget danctnix-usb-tethering openssh<<<'
+
+2
+
+
+
+30
+'
+rm -r /tmp/!
+arch-chroot /mnt bash -c "pacman -Qqd|pacman -Rsun --noconfirm -
+systemctl enable NetworkManager ModemManager plasmalogin usb-tethering sshd
+ln -s /usr/share/zoneinfo/UTC /etc/localtime
+hwclock -w
+echo -en /dev/disk/by-id/mmc-A3A562_0x1dec37d0-part1 /boot auto'\'n/dev/disk/by-id/mmc-A3A562_0x1dec37d0-part3 none swap>/etc/fstab
+sed -i 15,17d /usr/lib/tmpfiles.d/var.conf
+rm /var/log/wtmp /var/log/btmp /var/log/lastlog
+useradd -m a
+sed -i '1s/x//
+\$s/x//' /etc/passwd
+sed -i '/t A/s/^/# /
+/L A/s/^..//' /etc/ers
+sed -i /Ca/cCacheDir=/tmp/! /etc/pacman.conf
+echo -n unset HISTFILE>>/etc/bash.bashrc"
+umount /mnt/boot
+umount /mnt
+mount /dev/disk/by-id/mmc-A3A562_0x1dec37d0-part4 /mnt
+chmod 777 /mnt
+}|tee /run/media/a/8688e754-c2e4-40d1-a9c8-c205211ca8d9/.txt
+umount /mnt
+losetup -D
+cp /run/media/a/8688e754-c2e4-40d1-a9c8-c205211ca8d9/.img /dev/disk/by-id/usb-Linux_UMS_disk_0_4cbd7c582a5cf775-0:0

@@ -1,0 +1,62 @@
+⃝
+sudo -i
+⏺
+⃝
+{
+truncate -s 5GiB /run/media/a/8688e754-c2e4-40d1-a9c8-c205211ca8d9/.img
+losetup -fP /run/media/a/8688e754-c2e4-40d1-a9c8-c205211ca8d9/.img
+fdisk /dev/loop0<<<'g
+n
+
+
+133119
+n
+
+
+10485726
+w'
+mkfs.fat /dev/loop0p1
+mkfs.f2fs /dev/loop0p2
+mount /dev/loop0p2 /mnt
+chmod 777 /mnt
+mount --mkdir /dev/loop0p1 /mnt/efi
+chmod 777 /mnt/efi
+mkdir /mnt/efi/efi
+mkdir /mnt/efi/efi/boot
+mkdir /mnt/etc
+mkdir /mnt/etc/mkinitcpio.d
+echo -en ALL_kver='$(ls /usr/lib/modules)\'nPRESETS='\'n_uki=/efi/efi/boot/bootx64.efi>/mnt/etc/mkinitcpio.d/linux.preset
+mkdir /mnt/etc/kernel
+echo -n root=/dev/disk/by-id/usb-JetFlash_Transcend_32GB_01JDP4E3DVWKHULY-0:0-part2 rw>/mnt/etc/kernel/cmdline
+pacstrap -icMK /mnt base linux linux-firmware-amdgpu linux-firmware-atheros dosfstools f2fs-tools man-db man-pages nano sudo plasma-meta<<<'
+
+
+2
+
+'
+rm -r /tmp/!
+arch-chroot /mnt bash -c "pacman -Qqd|pacman -Rsun --noconfirm -
+systemctl enable NetworkManager plasmalogin
+ln -s /usr/share/zoneinfo/UTC /etc/localtime
+hwclock -w
+echo -en /dev/disk/by-id/usb-JetFlash_Transcend_32GB_01JDP4E3DVWKHULY-0:0-part1 /efi auto>/etc/fstab
+sed -i 15,17d /usr/lib/tmpfiles.d/var.conf
+rm /var/log/wtmp /var/log/btmp /var/log/lastlog
+useradd -m a
+sed -i '1s/x//
+\$s/x//' /etc/passwd
+sed -i '/t A/s/^/# /
+/L A/s/^..//' /etc/sudoers
+sed -i /W/,/^$/{//!s/.//} /etc/pacman.d/mirrorlist
+sed -i '/Ca/cCacheDir=/tmp/!
+/b]/,+1s/.//' /etc/pacman.conf
+echo -n unset HISTFILE>>/etc/bash.bashrc"
+}|tee /run/media/a/8688e754-c2e4-40d1-a9c8-c205211ca8d9/.txt
+umount /mnt/efi
+⏺
+reboot
+⃝
+cp /run/media/a/8688e754-c2e4-40d1-a9c8-c205211ca8d9/.img /dev/disk/by-id/usb-JetFlash_Transcend_32GB_01JDP4E3DVWKHULY-0:0
+⏺
+
+https://bbs.archlinux.org/viewtopic.php?id=312652
