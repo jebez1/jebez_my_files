@@ -4,7 +4,7 @@ Arch Linux KDE UKI, https://wiki.archlinux.org/title/Unified_kernel_image#Bootin
 
 /dev/sdb is the installer drive (e.g. an USB drive)
 /dev/sdb1 is the partition containing the installer Bash script named e.g. 0
-/dev/sdb2 is the FAT32 (the default file system bootable by BIOS UEFI) partition containing Arch Linux Netboot or the pasted content of archlinux-x86_64.iso .
+/dev/sdb2 is the FAT32 (the default file system bootable by BIOS UEFI) partition containing Arch Linux Netboot or the archlinux-x86_64.iso pasted content.
 
 The pacstrap -c option https://man.archlinux.org/man/pacstrap.8 is used, RAM is faster & to avoid fragmentation on the OS partition.
 
@@ -19,7 +19,7 @@ bash    # because Arch Linux uses Bash by default, so why Zsh in the installer? 
 localectl set-keymap fr    # azerty (I'm french)
 ls -l /dev/disk/by-id    # get the target PC drive ID (e.g. ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT ) to write in 0
 mount /dev/sdb1 /home    # /home is empty
-/home/a_path/0|tee .txt    # |tee .txt is an option, to log the 0 message in the RAM
+/home/a_path/0|tee .txt    # |tee .txt is an option, to log the 0's messages in the RAM
 ⏺
 
 • Installation
@@ -60,6 +60,7 @@ mkfs.ext4 /dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part4    # fo
 mount /dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part2 /mnt
 chmod 777 /mnt    # enable read, write & execute
 mount --mkdir /dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part1 /mnt/efi    #
+chmod 777 /mnt/efi
 mkdir /mnt/efi/efi
 mkdir /mnt/efi/efi/boot
 mkdir /mnt/etc
@@ -68,7 +69,7 @@ echo -en ALL_kver='$(ls /usr/lib/modules)\'nPRESETS='\'n_uki=/efi/efi/boot/bootx
 mkdir /mnt/etc/kernel
 echo *n root=/dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part2 resume=/dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part3 rw>/mnt/etc/kernel/cmdline    # prepare & tell mkinitcpio to create an UKI
 swapon /dev/disk/by-id/ata-WDC_WD10JPVX-08JC3T6_WD-WXU1AA6PDZNT-part3    # tweak, enable the swap partition
-pacstrap -icMK /mnt base linux linux-firmware-amdgpu linux-firmware-atheros dosfstools f2fs-tools man-db man-pages nano sudo plasma-meta kde-applications-meta dvd+rw-tools chromium vlc vlc-plugins-all cmatrix supertuxkart teeworlds<<<'
+pacstrap -icMK /mnt base linux linux-firmware-amdgpu linux-firmware-atheros dosfstools f2fs-tools man-db man-pages nano sudo plasma-meta kde-accessibility-meta kde-education-meta kde-games-meta kde-graphics-meta kde-multimedia-meta kde-network-meta kde-office-meta kde-sdk-meta kde-system-meta kde-utilities-meta kdevelop-meta dvd+rw-tools chromium vlc vlc-plugins-all cmatrix supertuxkart teeworlds<<<'
 
 
 2
@@ -105,12 +106,16 @@ cp .txt /mnt    # copy paste the installation log to the data partition
 
 Konsole
 ⃝
-sed -i /rt/s/true/false/ /home/a/.config/akonadi/akonadiserverrc    # option, https://discuss.kde.org/t/why-akonadi-uses-ram-despite-not-used/43327
 >/home/a/.local/share/recently-used.xbel    #
 chmod u=r /home/a/.local/share/recently-used.xbel    # option, https://askubuntu.com/questions/269858/how-do-i-prevent-the-file-recently-used-xbel-from-being-created
 localectl set-keymap fr
 ⏺
 Reboot, to localectl set-keymap fr takes effect.
+
+• Note
+
+kde-accessibility-meta kde-education-meta kde-games-meta kde-graphics-meta kde-multimedia-meta kde-network-meta kde-office-meta kde-sdk-meta kde-system-meta kde-utilities-meta kdevelop-meta
++ kde-pim-meta = kde-applications-meta , the 1st instead of the latter because https://discuss.kde.org/t/startserver-false-works-not-anymore-so-how-to/46779 .
 
 • Tips
 
